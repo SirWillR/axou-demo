@@ -51,6 +51,10 @@ ion-item {
   border-radius: 3px;
 }
 
+ion-item:hover {
+  background-color: var(--ion-item-background, var(--ion-background-color, #fff)) !important;
+}
+
 .search-box-map {
   margin: 15px;
   padding: 5px;
