@@ -23,9 +23,9 @@ export class AppComponent {
   initializeApp() {
     this.pages = [
       { url: '/home', direction: 'back', icon: 'home', text: 'Home' },
-      { url: '/cadastra-item', direction: 'back', icon: 'add', text: 'Cadastrar Item' },
+      { url: '/cadastra-item', direction: 'forward', icon: 'add', text: 'Cadastrar Item' },
       {
-        url: '/sobre',
+        url: '/informacoes',
         direction: 'forward',
         icon: 'information-circle-outline',
         text: 'Informações'

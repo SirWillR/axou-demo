@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: 'cadastra-item',
     loadChildren: './pages/cadastra-item/cadastra-item.module#CadastraItemPageModule'
+  },
+  {
+    path: 'informacoes',
+    loadChildren: './pages/informacoes/informacoes.module#InformacoesPageModule'
   }
 ];
 
