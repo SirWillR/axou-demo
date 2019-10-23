@@ -10,17 +10,95 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
-@import "~@ionic/angular/css/core.css";
+@import '~@ionic/angular/css/core.css';
 
 /* Basic CSS for apps built with Ionic */
-@import "~@ionic/angular/css/normalize.css";
-@import "~@ionic/angular/css/structure.css";
-@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/normalize.css';
+@import '~@ionic/angular/css/structure.css';
+@import '~@ionic/angular/css/typography.css';
 @import '~@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
-@import "~@ionic/angular/css/padding.css";
-@import "~@ionic/angular/css/float-elements.css";
-@import "~@ionic/angular/css/text-alignment.css";
-@import "~@ionic/angular/css/text-transformation.css";
-@import "~@ionic/angular/css/flex-utils.css";
+@import '~@ionic/angular/css/padding.css';
+@import '~@ionic/angular/css/float-elements.css';
+@import '~@ionic/angular/css/text-alignment.css';
+@import '~@ionic/angular/css/text-transformation.css';
+@import '~@ionic/angular/css/flex-utils.css';
+
+.bg-class {
+  --background: rgba(76, 185, 196, 1);
+  --background: -moz-linear-gradient(45deg, rgba(76, 185, 196, 1) 0%, rgba(61, 211, 174, 1) 100%);
+  --background: -webkit-gradient(
+    left bottom,
+    right top,
+    color-stop(0%, rgba(76, 185, 196, 1)),
+    color-stop(100%, rgba(61, 211, 174, 1))
+  );
+  --background: -webkit-linear-gradient(
+    45deg,
+    rgba(76, 185, 196, 1) 0%,
+    rgba(61, 211, 174, 1) 100%
+  );
+  --background: -o-linear-gradient(45deg, rgba(76, 185, 196, 1) 0%, rgba(61, 211, 174, 1) 100%);
+  --background: -ms-linear-gradient(45deg, rgba(76, 185, 196, 1) 0%, rgba(61, 211, 174, 1) 100%);
+  --background: linear-gradient(45deg, rgba(76, 185, 196, 1) 0%, rgba(61, 211, 174, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4cb9c4', endColorstr='#3dd3ae', GradientType=1 );
+
+  --color: #ffffff;
+}
+
+ion-item {
+  border-radius: 3px;
+}
+
+.search-box-map {
+  margin: 15px;
+  padding: 5px;
+  background-color: #fff;
+  border: 1px solid gray;
+  border-radius: 3px;
+  width: 50%;
+  height: 30px;
+  color: #000;
+}
+
+#map_canvas {
+  width: 90%;
+  height: 80%;
+  border: 1px solid red;
+}
+
+#address {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#map {
+  width: 100%;
+  height: 56vh;
+}
+
+.map-wrapper {
+  position: relative;
+  border-bottom: 3px solid #fff;
+
+  #map_center {
+    position: absolute;
+    z-index: 99;
+    height: 40px;
+    width: 40px;
+    top: 50%;
+    left: 50%;
+    margin-left: -21px;
+    margin-top: -41px;
+  }
+}
+
+.titleicon {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  padding-left: 10px;
+}
