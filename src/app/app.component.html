@@ -2,9 +2,7 @@
   contentId="menu-content"
   when="md">
   <!-- our side menu -->
-  <ion-menu
-    contentId="menu-content"
-    class="bg-class">
+  <ion-menu contentId="menu-content">
     <ion-header>
       <ion-toolbar>
         <ion-grid>
@@ -16,6 +14,23 @@
         </ion-grid>
       </ion-toolbar>
     </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle autoHide="false">
+          <ion-item
+            button
+            *ngFor="let page of pages"
+            [routerLink]="page.url"
+            [routerDirection]="page.direction">
+            <ion-icon
+              slot="start"
+              color="primary"
+              [name]="page.icon"></ion-icon>
+            <ion-label>{{ page.text }}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
   </ion-menu>
 
   <!-- the main content -->

@@ -10,6 +10,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  pages: { url: string; direction: string; icon: string; text: string }[];
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -19,6 +21,17 @@ export class AppComponent {
   }
 
   initializeApp() {
+    this.pages = [
+      { url: '/home', direction: 'back', icon: 'home', text: 'Home' },
+      { url: '/cadastra-item', direction: 'back', icon: 'add', text: 'Cadastrar Item' },
+      {
+        url: '/sobre',
+        direction: 'forward',
+        icon: 'information-circle-outline',
+        text: 'Informações'
+      }
+    ];
+
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
