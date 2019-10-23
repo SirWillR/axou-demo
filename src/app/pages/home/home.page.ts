@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { MapaService } from '../services/mapa.service';
+import { MapaService } from '../../services/mapa.service';
 
 @Component({
   selector: 'app-home',
