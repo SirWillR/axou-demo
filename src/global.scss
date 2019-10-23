@@ -25,7 +25,8 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
-.bg-class {
+.bg-class,
+ion-toolbar {
   --background: rgba(76, 185, 196, 1);
   --background: -moz-linear-gradient(45deg, rgba(76, 185, 196, 1) 0%, rgba(61, 211, 174, 1) 100%);
   --background: -webkit-gradient(
@@ -85,7 +86,7 @@ ion-item:hover {
 
 .map-wrapper {
   position: relative;
-  border-bottom: 3px solid #fff;
+  border-bottom: 2px solid #3dd3ae;
 
   #map_center {
     position: absolute;
