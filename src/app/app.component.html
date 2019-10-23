@@ -1,3 +1,23 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
-</ion-app>
+<ion-split-pane
+  contentId="menu-content"
+  when="md">
+  <!-- our side menu -->
+  <ion-menu
+    contentId="menu-content"
+    class="bg-class">
+    <ion-header>
+      <ion-toolbar>
+        <ion-grid>
+          <ion-row class="ion-justify-content-center">
+            <img
+              src="../../assets/logo.png"
+              width="150px">
+          </ion-row>
+        </ion-grid>
+      </ion-toolbar>
+    </ion-header>
+  </ion-menu>
+
+  <!-- the main content -->
+  <ion-router-outlet id="menu-content"></ion-router-outlet>
+</ion-split-pane>
