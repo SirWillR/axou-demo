@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-pesquisar',
@@ -27,6 +27,27 @@ export class PesquisarPage implements OnInit {
     });
   }
 
+  minStartDate(): string {
+    return moment()
+      .subtract(1, 'year')
+      .format('YYYY-MM-DD');
+  }
+
+  minEndDate(): string {
+    return moment(this.searchForm.get('data_inicio').value).format('YYYY-MM-DD');
+  }
+
+  maxEndDate(): string {
+    const momentAdd = moment(this.searchForm.get('data_inicio').value).add(30, 'day');
+    return momentAdd.isAfter(moment())
+      ? moment().format('YYYY-MM-DD')
+      : momentAdd.format('YYYY-MM-DD');
+  }
+
+  atualDate(): string {
+    return moment().format('YYYY-MM-DD');
+  }
+
   get descricao(): FormControl {
     return this.searchForm.get('descricao') as FormControl;
   }
@@ -36,11 +57,11 @@ export class PesquisarPage implements OnInit {
   }
 
   get data_inicio(): FormControl {
-    return this.searchForm.get('data') as FormControl;
+    return this.searchForm.get('data_inicio') as FormControl;
   }
 
   get data_fim(): FormControl {
-    return this.searchForm.get('data') as FormControl;
+    return this.searchForm.get('data_fim') as FormControl;
   }
 
   get situacao(): FormControl {
@@ -48,6 +69,8 @@ export class PesquisarPage implements OnInit {
   }
 
   onSubmit() {
+    if (this.data_inicio > this.data_fim) {
+    }
     this.navCtrl.navigateRoot(['home', this.searchForm.value]);
   }
 }

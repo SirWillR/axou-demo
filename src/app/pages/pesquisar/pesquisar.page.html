@@ -58,9 +58,9 @@
                   <ion-label position="floating">Data Início</ion-label>
                   <ion-datetime
                     formControlName="data_inicio"
-                    displayFormat="MM/DD/YYYY"
-                    min="2019-01-01"
-                    max="2019"
+                    displayFormat="DD/MM/YYYY"
+                    [min]="minStartDate()"
+                    [max]="atualDate()"
                     cancel-text="Cancelar"
                     doneText="Confirmar">
                   </ion-datetime>
@@ -71,15 +71,16 @@
                   <ion-label position="floating">Data Final</ion-label>
                   <ion-datetime
                     formControlName="data_fim"
-                    displayFormat="MM/DD/YYYY"
-                    min="2019-01-01"
-                    max="2019"
+                    displayFormat="DD/MM/YYYY"
+                    [min]="minEndDate()"
+                    [max]="maxEndDate()"
                     cancel-text="Cancelar"
                     doneText="Confirmar">
                   </ion-datetime>
                 </ion-item>
               </ion-col>
             </ion-row>
+            <ion-note color="medium">* Intervalo máximo de 30 dias</ion-note>
           </ion-grid>
           <ion-list>
             <ion-radio-group formControlName="situacao">
