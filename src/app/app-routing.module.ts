@@ -14,7 +14,8 @@ const routes: Routes = [
   {
     path: 'informacoes',
     loadChildren: './pages/informacoes/informacoes.module#InformacoesPageModule'
-  }
+  },
+  { path: 'pesquisar', loadChildren: './pages/pesquisar/pesquisar.module#PesquisarPageModule' }
 ];
 
 @NgModule({
