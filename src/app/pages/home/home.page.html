@@ -28,7 +28,7 @@
     </ion-row>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content class="angular-google-map-container">
   <div class="map-wrapper">
     <input
       #pacInput
@@ -40,39 +40,32 @@
     <div
       #map
       id="map"></div>
-    <div style="display: none"></div>
-  </div>
-  <div class="ion-padding">
-    <ion-row>
-      <ion-col class="ion-text-end">
-        <ion-item style="border: 1px solid #3dd3ae">
-          <ion-label position="stacked">Informe a descrição</ion-label>
-          <ion-input></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-item style="border: 1px solid #3dd3ae">
-          <ion-label position="stacked">Tipo</ion-label>
-          <ion-select>
-            <ion-select-option value="f">Pessoa</ion-select-option>
-            <ion-select-option value="m">Objeto</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
+    <div style="display: none">
+      <div
+        #zoomControl
+        class="controls zoom-control">
+        <button
+          #zoomIn
+          class="controls zoom-control-in"
+          title="Zoom In">
+          +
+        </button>
+        <button
+          #zoomOut
+          class="zoom-control-out"
+          title="Zoom Out">
+          &minus;
+        </button>
+      </div>
+      <div #actionButton>
         <ion-button
-          expand="block"
-          style="color: #fff; height: 50px;">
+          class="button-redondo"
+          (click)="formPesquisar()">
           <ion-icon
-            slot="start"
+            slot="icon-only"
             name="search"></ion-icon>
-          Procurar
         </ion-button>
-      </ion-col>
-    </ion-row>
+      </div>
+    </div>
   </div>
 </ion-content>

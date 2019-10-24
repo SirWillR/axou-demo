@@ -10,39 +10,9 @@ declare var MarkerClusterer;
   providedIn: 'root'
 })
 export class MapaService {
-  locations: any;
-  markerCluster: any;
-  activeInfoWindow: any;
-  locMarkers: any[];
-  locInfo: any[];
+  lastWindow: any = null;
 
-  constructor(private geolocation: Geolocation, private nativeGeocoder: NativeGeocoder) {
-    this.locations = [
-      { lat: -31.56391, lng: 147.154312 },
-      { lat: -33.718234, lng: 150.363181 },
-      { lat: -33.727111, lng: 150.371124 },
-      { lat: -33.848588, lng: 151.209834 },
-      { lat: -33.851702, lng: 151.216968 },
-      { lat: -34.671264, lng: 150.863657 },
-      { lat: -35.304724, lng: 148.662905 },
-      { lat: -36.817685, lng: 175.699196 },
-      { lat: -36.828611, lng: 175.790222 },
-      { lat: -37.75, lng: 145.116667 },
-      { lat: -37.759859, lng: 145.128708 },
-      { lat: -37.765015, lng: 145.133858 },
-      { lat: -37.770104, lng: 145.143299 },
-      { lat: -37.7737, lng: 145.145187 },
-      { lat: -37.774785, lng: 145.137978 },
-      { lat: -37.819616, lng: 144.968119 },
-      { lat: -38.330766, lng: 144.695692 },
-      { lat: -39.927193, lng: 175.053218 },
-      { lat: -41.330162, lng: 174.865694 },
-      { lat: -42.734358, lng: 147.439506 },
-      { lat: -42.734358, lng: 147.501315 },
-      { lat: -42.735258, lng: 147.438 },
-      { lat: -43.999792, lng: 170.463352 }
-    ];
-  }
+  constructor(private geolocation: Geolocation, private nativeGeocoder: NativeGeocoder) {}
 
   loadMap(mapElement: ElementRef): Promise<any> {
     return this.geolocation
@@ -55,7 +25,6 @@ export class MapaService {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             panControl: false,
             disableDefaultUI: true,
-            zoomControl: true,
             styles: mapStyle
           })
       )
@@ -64,8 +33,23 @@ export class MapaService {
       });
   }
 
+  addActionButton(map: any, button: any) {
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(button.nativeElement);
+  }
+
+  addZoomControl(map: any, control: any, zoonIn: any, zoonOut: any) {
+    zoonIn.nativeElement.onclick = () => {
+      map.setZoom(map.getZoom() + 1);
+    };
+    zoonOut.nativeElement.onclick = () => {
+      map.setZoom(map.getZoom() - 1);
+    };
+    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(control.nativeElement);
+  }
+
   addSearchBox(map: any, input: ElementRef) {
     const searchBox = new google.maps.places.SearchBox(input.nativeElement);
+    input.nativeElement.style['margin-top'] = '70px';
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input.nativeElement);
 
     map.addListener('bounds_changed', () => {
@@ -132,45 +116,55 @@ export class MapaService {
     });
   }
 
-  showItens(map: any) {
-    const markers = this.locations.map(location => {
+  showItens(
+    map: any,
+    locations: { latlng: {}; id: string; title: string; descricao: string }[],
+    window: any
+  ) {
+    const markers = locations.map(location => {
       return new google.maps.Marker({
-        position: location,
+        position: location.latlng,
         map,
         animation: google.maps.Animation.DROP,
         icon: 'assets/map/marker.png'
       });
     });
 
-    this.markerCluster = new MarkerClusterer(map, markers, {
-      //maxZoom: 15,
+    const markerCluster = new MarkerClusterer(map, markers, {
       imagePath: 'assets/map/m'
     });
 
-    google.maps.event.addListener(this.markerCluster, 'clusterclick', cluster => {
+    google.maps.event.addListener(markerCluster, 'clusterclick', cluster => {
       map.setCenter(cluster.getCenter());
       map.setZoom(map.getZoom());
     });
 
     markers.forEach((marker, i) => {
       marker.addListener('click', () => {
-        if (this.activeInfoWindow) {
-          this.activeInfoWindow.close();
+        if (this.lastWindow) {
+          this.lastWindow.close();
         }
         const infowindow = new google.maps.InfoWindow({
           content:
-            '<div class="info-window text-center">' +
-            '<img src="resources/img/bg.jpg" alt="Objeto Image" class="img-raised rounded-circle img-fluid" width="100px">' +
-            '<h3>Titulo</h3>' +
+            '<div class="info-window ion-text-center">' +
+            '<ion-title>' +
+            locations[i].title +
+            '</ion-title>' +
             '<div class="info-content">' +
-            '<p>Descricao</p>' +
+            '<p>' +
+            locations[i].descricao +
+            '</p>' +
             '</div>' +
-            '<a href="ObjetoServlet?id=10" class="badge badge-pill badge-secondary">Ver Mais</a>' +
+            '<ion-button onClick="window.ionicPageRef.zone.run(function () { window.ionicPageRef.component.showItemInfo(' +
+            locations[i].id +
+            ') })"' +
+            'expand="full" fill="outline">Ver Mais</ion-button>' +
             '</div>',
           maxWidth: 400
         });
+        this.lastWindow = infowindow;
         infowindow.open(map, marker);
-        this.activeInfoWindow = infowindow;
+        map.panTo(marker.getPosition());
       });
     });
   }
