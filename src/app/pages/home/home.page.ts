@@ -5,6 +5,7 @@ import { ActivatedRoute, UrlSegmentGroup, UrlSegment, UrlTree } from '@angular/r
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ItensService } from 'src/app/services/itens.service';
 
 @Component({
   selector: 'app-home',
@@ -25,12 +26,13 @@ export class HomePage {
     private mapaService: MapaService,
     private navCtrl: NavController,
     public ngZone: NgZone,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private itensService: ItensService
   ) {}
 
   ionViewDidEnter() {
-    console.log(this.activatedRoute.snapshot.paramMap.get('id'));
     this.loadMap();
+    this.showItensMarker();
   }
 
   async loadMap() {
@@ -43,23 +45,42 @@ export class HomePage {
       this.zoomInElement,
       this.zoomOutElement
     );
+  }
 
-    const locations = [
-      {
-        latlng: { lat: -31.56391, lng: 147.154312 },
-        id: '1',
-        title: 'Titulo',
-        descricao: 'Descricao'
-      }
-    ];
-    this.activeInfoWindow = this.mapaService.showItens(
-      this.map,
-      locations,
-      ((window as any).ionicPageRef = {
-        zone: this.ngZone,
-        component: this
-      })
-    );
+  async showItensMarker(): Promise<void> {
+    try {
+      /*
+      this.itensService.setitens({
+        titulo: this.activatedRoute.snapshot.paramMap.get('titulo'),
+        descricao: this.activatedRoute.snapshot.paramMap.get('descricao'),
+        tipo: this.activatedRoute.snapshot.paramMap.get('tipo'),
+        data_inicio: this.activatedRoute.snapshot.paramMap.get('data_inicio'),
+        data_fim: this.activatedRoute.snapshot.paramMap.get('data_fim'),
+        situacao: this.activatedRoute.snapshot.paramMap.get('situacao')
+      });
+      */
+      await this.itensService.getAll().subscribe(itens => {
+        const locations = [];
+        itens.map(x =>
+          locations.push({
+            id: x.id,
+            title: x.titulo,
+            descricao: x.descricao,
+            latlng: x.latLng
+          })
+        );
+        this.activeInfoWindow = this.mapaService.showItens(
+          this.map,
+          locations,
+          ((window as any).ionicPageRef = {
+            zone: this.ngZone,
+            component: this
+          })
+        );
+      });
+    } catch (error) {
+      console.log('Erro ao carregar os itens: ', error);
+    }
   }
 
   showItemInfo(id: string) {
