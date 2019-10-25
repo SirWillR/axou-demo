@@ -28,9 +28,17 @@ export class MapaService {
             styles: mapStyle
           })
       )
-      .catch(error => {
-        console.log('Error getting location', error);
-      });
+      .catch(
+        error =>
+          new google.maps.Map(mapElement.nativeElement, {
+            center: new google.maps.LatLng(-13.83, -48.02),
+            zoom: 4,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            panControl: false,
+            disableDefaultUI: true,
+            styles: mapStyle
+          })
+      );
   }
 
   addActionButton(map: any, button: any) {
