@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Firestore } from 'src/app/core/classes/firestore.class';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
 import { ItemClass } from '../shared/item.model';
 
 @Injectable({
@@ -18,29 +18,32 @@ export class ItensService extends Firestore<ItemClass> {
   }
 
   setitens({
-    titulo,
-    descricao,
     tipo,
-    data_inicio,
-    data_fim,
+    dataInicio,
+    dataFim,
     situacao
   }: {
-    titulo: string;
-    descricao: string;
-    tipo: string;
-    data_inicio: string;
-    data_fim: string;
-    situacao: string;
+    tipo?: string;
+    dataInicio?: string;
+    dataFim?: string;
+    situacao?: string;
   }): void {
-    this.setCollection(`/itens`, ref =>
-      ref
-        .where('titulo', 'array-contains', titulo)
-        .where('descricao', 'array-contains', descricao)
-        .where('tipo', '==', tipo)
-        .startAfter('data', data_inicio)
-        .endBefore('data', data_fim)
-        .where('situacao', '==', situacao)
-    );
+    this.setCollection(`/itens`, ref => {
+      let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+      if (tipo && 'null' !== tipo) {
+        query = query.where('tipo', '==', tipo);
+      }
+      if (dataInicio && 'null' !== dataInicio) {
+        query = query.where('data', '>=', new Date(dataInicio));
+      }
+      if (dataFim && 'null' !== dataFim) {
+        query = query.where('data', '<=', new Date(dataFim));
+      }
+      if (situacao && 'null' !== situacao) {
+        query = query.where('situacao', '==', situacao);
+      }
+      return query;
+    });
     return;
   }
 }

@@ -2,6 +2,7 @@ import { Injectable, ElementRef } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { mapStyle } from '../shared/mapStyle';
+import { FormControl } from '@angular/forms';
 
 declare var google;
 declare var MarkerClusterer;
@@ -57,7 +58,6 @@ export class MapaService {
 
   addSearchBox(map: any, input: ElementRef) {
     const searchBox = new google.maps.places.SearchBox(input.nativeElement);
-    input.nativeElement.style['margin-top'] = '70px';
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input.nativeElement);
 
     map.addListener('bounds_changed', () => {
@@ -87,7 +87,13 @@ export class MapaService {
     });
   }
 
-  markerClick(map: any) {
+  markerClick(
+    map: any,
+    cidade: FormControl,
+    uf: FormControl,
+    pais: FormControl,
+    latLng: FormControl
+  ) {
     let markerClick;
     google.maps.event.addListener(map, 'click', event => {
       if (markerClick == null) {
@@ -107,13 +113,16 @@ export class MapaService {
           if (results[1]) {
             for (const result of results) {
               if (result.types[0] === 'administrative_area_level_2') {
-                console.log(result.address_components[0].short_name);
+                cidade.setValue(result.address_components[0].short_name);
               } else if (result.types[0] === 'administrative_area_level_1') {
-                console.log(result.address_components[0].short_name);
+                uf.setValue(result.address_components[0].short_name);
               } else if (result.types[0] === 'country') {
-                console.log(result.address_components[0].short_name);
+                pais.setValue(result.address_components[0].short_name);
               }
             }
+            latLng.setValue(
+              '{"lat": ' + event.latLng.lat() + ', "lng": ' + event.latLng.lng() + '}'
+            );
           } else {
             console.log('No reverse geocode results.');
           }

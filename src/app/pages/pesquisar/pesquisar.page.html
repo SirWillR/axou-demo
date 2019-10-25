@@ -22,42 +22,25 @@
           [formGroup]="searchForm"
           (submit)="onSubmit()">
           <ion-item>
-            <ion-label position="floating">Título</ion-label>
-            <ion-input formControlName="titulo"></ion-input>
-            <ion-note
-              slot="end"
-              color="danger"
-              *ngIf="titulo.dirty && titulo.hasError('required')">
-              Campo obrigatório
-            </ion-note>
-            <ion-note
-              slot="end"
-              color="danger"
-              *ngIf="titulo.dirty && titulo.hasError('minlength')">
-              Mínimo 6 caracteres
-            </ion-note>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Descrição</ion-label>
-            <ion-textarea
-              formControlName="descricao"
-              required="true"
-              maxlength="50"
-              placeholder="Informe alguma descrição..."></ion-textarea>
-            <ion-note
-              slot="end"
-              color="danger"
-              *ngIf="descricao.dirty && descricao.hasError('required')">
-              Campo obrigatório
-            </ion-note>
-          </ion-item>
-          <ion-item>
             <ion-label>Tipo</ion-label>
             <ion-select
               placeholder="Selecione"
               formControlName="tipo">
-              <ion-select-option value="f">Female</ion-select-option>
-              <ion-select-option value="m">Male</ion-select-option>
+              <ion-select-option value="doc_pessoal">Documentos Pessoais</ion-select-option>
+              <ion-select-option value="animal">Animais (Cães e Gatos, Etc)</ion-select-option>
+              <ion-select-option value="celular">Celulares / Smartphones / Etc</ion-select-option>
+              <ion-select-option value="veiculo">Veículos (Carros, Motos)</ion-select-option>
+              <ion-select-option value="chave">Chaves e Chaveiros</ion-select-option>
+              <ion-select-option value="eletronico">
+                Eletrônicos / Computadores / Tablets, Etc
+              </ion-select-option>
+              <ion-select-option value="acessorio">
+                Canetas / Relógio / Joias, Alianças, Cordões, Etc
+              </ion-select-option>
+              <ion-select-option value="bolsa">Carteiras / Bolsas e Malas</ion-select-option>
+              <ion-select-option value="outro">Outros</ion-select-option>
+              <ion-select-option value="vestimenta">Roupas e Calçados</ion-select-option>
+              <ion-select-option value="pessoa">Pessoas Desaparecidas</ion-select-option>
             </ion-select>
           </ion-item>
           <ion-grid>
@@ -70,6 +53,7 @@
                     displayFormat="DD/MM/YYYY"
                     [min]="minStartDate()"
                     [max]="atualDate()"
+                    (ionBlur)="data_fim.reset()"
                     cancel-text="Cancelar"
                     doneText="Confirmar">
                   </ion-datetime>
@@ -82,7 +66,7 @@
                     formControlName="data_fim"
                     displayFormat="DD/MM/YYYY"
                     [min]="minEndDate()"
-                    [max]="maxEndDate()"
+                    [max]="atualDate()"
                     cancel-text="Cancelar"
                     doneText="Confirmar">
                   </ion-datetime>

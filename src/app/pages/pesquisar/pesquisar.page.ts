@@ -10,6 +10,7 @@ import * as moment from 'moment';
 })
 export class PesquisarPage implements OnInit {
   searchForm: FormGroup;
+  date: string;
 
   constructor(private fb: FormBuilder, private navCtrl: NavController) {}
 
@@ -19,42 +20,32 @@ export class PesquisarPage implements OnInit {
 
   private createForm(): void {
     this.searchForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.minLength(6)]],
-      descricao: ['', [Validators.required]],
-      tipo: ['', [Validators.required]],
-      data_inicio: ['', [Validators.required]],
-      data_fim: ['', [Validators.required]],
-      situacao: ['', [Validators.required]]
+      tipo: [''],
+      data_inicio: [''],
+      data_fim: [''],
+      situacao: ['achado', [Validators.required]]
     });
   }
 
   minStartDate(): string {
     return moment()
-      .subtract(1, 'year')
+      .subtract(3, 'month')
       .format('YYYY-MM-DD');
   }
 
   minEndDate(): string {
-    return moment(this.searchForm.get('data_inicio').value).format('YYYY-MM-DD');
-  }
-
-  maxEndDate(): string {
-    const momentAdd = moment(this.searchForm.get('data_inicio').value).add(30, 'day');
-    return momentAdd.isAfter(moment())
-      ? moment().format('YYYY-MM-DD')
-      : momentAdd.format('YYYY-MM-DD');
+    const dataInicio = this.searchForm.get('data_inicio').value;
+    if (dataInicio) {
+      return moment(this.searchForm.get('data_inicio').value).format('YYYY-MM-DD');
+    } else {
+      return moment()
+        .subtract(3, 'month')
+        .format('YYYY-MM-DD');
+    }
   }
 
   atualDate(): string {
     return moment().format('YYYY-MM-DD');
-  }
-
-  get titulo(): FormControl {
-    return this.searchForm.get('titulo') as FormControl;
-  }
-
-  get descricao(): FormControl {
-    return this.searchForm.get('descricao') as FormControl;
   }
 
   get tipo(): FormControl {
@@ -74,6 +65,10 @@ export class PesquisarPage implements OnInit {
   }
 
   onSubmit() {
+    const dataInicio = this.searchForm.get('data_inicio');
+    if (dataInicio.value) {
+      this.searchForm.get('data_inicio').setValue(moment(dataInicio.value).format('YYYY-MM-DD'));
+    }
     this.navCtrl.navigateRoot(['home', this.searchForm.value]);
   }
 }

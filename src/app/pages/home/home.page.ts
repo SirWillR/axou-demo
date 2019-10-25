@@ -1,10 +1,8 @@
 import { Component, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { MapaService } from '../../services/mapa.service';
 import { NavController } from '@ionic/angular';
-import { ActivatedRoute, UrlSegmentGroup, UrlSegment, UrlTree } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ItensService } from 'src/app/services/itens.service';
 
 @Component({
@@ -49,16 +47,24 @@ export class HomePage {
 
   async showItensMarker(): Promise<void> {
     try {
-      /*
       this.itensService.setitens({
-        titulo: this.activatedRoute.snapshot.paramMap.get('titulo'),
-        descricao: this.activatedRoute.snapshot.paramMap.get('descricao'),
-        tipo: this.activatedRoute.snapshot.paramMap.get('tipo'),
-        data_inicio: this.activatedRoute.snapshot.paramMap.get('data_inicio'),
-        data_fim: this.activatedRoute.snapshot.paramMap.get('data_fim'),
-        situacao: this.activatedRoute.snapshot.paramMap.get('situacao')
+        tipo:
+          this.activatedRoute.snapshot.paramMap.get('tipo') != null
+            ? this.activatedRoute.snapshot.paramMap.get('tipo')
+            : null,
+        dataInicio:
+          this.activatedRoute.snapshot.paramMap.get('data_inicio') != null
+            ? this.activatedRoute.snapshot.paramMap.get('data_inicio')
+            : null,
+        dataFim:
+          this.activatedRoute.snapshot.paramMap.get('data_fim') != null
+            ? this.activatedRoute.snapshot.paramMap.get('data_fim')
+            : null,
+        situacao:
+          this.activatedRoute.snapshot.paramMap.get('situacao') != null
+            ? this.activatedRoute.snapshot.paramMap.get('situacao')
+            : null
       });
-      */
       await this.itensService.getAll().subscribe(itens => {
         const locations = [];
         itens.map(x =>
