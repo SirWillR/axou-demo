@@ -22,11 +22,26 @@
           [formGroup]="searchForm"
           (submit)="onSubmit()">
           <ion-item>
+            <ion-label position="floating">Título</ion-label>
+            <ion-input formControlName="titulo"></ion-input>
+            <ion-note
+              slot="end"
+              color="danger"
+              *ngIf="titulo.dirty && titulo.hasError('required')">
+              Campo obrigatório
+            </ion-note>
+            <ion-note
+              slot="end"
+              color="danger"
+              *ngIf="titulo.dirty && titulo.hasError('minlength')">
+              Mínimo 6 caracteres
+            </ion-note>
+          </ion-item>
+          <ion-item>
             <ion-label position="floating">Descrição</ion-label>
             <ion-textarea
               formControlName="descricao"
               required="true"
-              minlength="6"
               maxlength="50"
               placeholder="Informe alguma descrição..."></ion-textarea>
             <ion-note
@@ -34,12 +49,6 @@
               color="danger"
               *ngIf="descricao.dirty && descricao.hasError('required')">
               Campo obrigatório
-            </ion-note>
-            <ion-note
-              slot="end"
-              color="danger"
-              *ngIf="descricao.dirty && descricao.hasError('minlength')">
-              Mínimo 6 caracteres
             </ion-note>
           </ion-item>
           <ion-item>

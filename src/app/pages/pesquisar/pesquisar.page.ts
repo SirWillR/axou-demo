@@ -19,7 +19,8 @@ export class PesquisarPage implements OnInit {
 
   private createForm(): void {
     this.searchForm = this.fb.group({
-      descricao: ['', [Validators.required, Validators.minLength(6)]],
+      titulo: ['', [Validators.required, Validators.minLength(6)]],
+      descricao: ['', [Validators.required]],
       tipo: ['', [Validators.required]],
       data_inicio: ['', [Validators.required]],
       data_fim: ['', [Validators.required]],
@@ -48,6 +49,10 @@ export class PesquisarPage implements OnInit {
     return moment().format('YYYY-MM-DD');
   }
 
+  get titulo(): FormControl {
+    return this.searchForm.get('titulo') as FormControl;
+  }
+
   get descricao(): FormControl {
     return this.searchForm.get('descricao') as FormControl;
   }
@@ -69,8 +74,6 @@ export class PesquisarPage implements OnInit {
   }
 
   onSubmit() {
-    if (this.data_inicio > this.data_fim) {
-    }
     this.navCtrl.navigateRoot(['home', this.searchForm.value]);
   }
 }
