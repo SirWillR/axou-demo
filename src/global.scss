@@ -56,6 +56,10 @@ ion-item:hover {
   background-color: var(--ion-item-background, var(--ion-background-color, #fff)) !important;
 }
 
+ion-menu {
+  max-width: 400px !important;
+}
+
 .search-box-map {
   margin: 15px;
   padding: 5px;
