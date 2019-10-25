@@ -163,9 +163,9 @@ export class MapaService {
             locations[i].descricao +
             '</p>' +
             '</div>' +
-            '<ion-button onClick="window.ionicPageRef.zone.run(function () { window.ionicPageRef.component.showItemInfo(' +
+            '<ion-button onClick="window.ionicPageRef.zone.run(function () { window.ionicPageRef.component.showItemInfo(\'' +
             locations[i].id +
-            ') })"' +
+            '\') })"' +
             'expand="full" fill="outline">Ver Mais</ion-button>' +
             '</div>',
           maxWidth: 400
