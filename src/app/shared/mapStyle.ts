@@ -26,6 +26,6 @@ export const mapStyle = [
   {
     featureType: 'water',
     elementType: 'geometry',
-    stylers: [{ hue: '#ffff00' }, { lightness: -25 }, { saturation: -97 }]
+    stylers: [{ hue: '#0000ff' }, { lightness: 20 }, { saturation: -50 }]
   }
 ];
