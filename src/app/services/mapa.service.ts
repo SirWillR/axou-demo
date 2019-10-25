@@ -144,7 +144,7 @@ export class MapaService {
         map,
         animation: google.maps.Animation.DROP,
         icon:
-          location.situacao === 'perdido'
+          location.situacao === 'Perdido'
             ? 'assets/map/marker_perdido.png'
             : 'assets/map/marker_achado.png'
       });
@@ -173,12 +173,12 @@ export class MapaService {
             '</ion-label>' +
             '</ion-item>' +
             '<ion-card-content>' +
-            '<div>' +
-            locations[i].descricao +
-            '</div>' +
             '<ion-note color="danger">' +
             locations[i].situacao +
             '</ion-note>' +
+            '<div>' +
+            locations[i].descricao +
+            '</div>' +
             '</ion-card-content>' +
             '</ion-card>' +
             '<ion-button onClick="window.ionicPageRef.zone.run(function () { window.ionicPageRef.component.showItemInfo(\'' +
