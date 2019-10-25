@@ -135,7 +135,7 @@ export class MapaService {
 
   showItens(
     map: any,
-    locations: { latlng: {}; id: string; title: string; descricao: string }[],
+    locations: { latlng: {}; id: string; title: string; descricao: string; situacao: string }[],
     window: any
   ) {
     const markers = locations.map(location => {
@@ -143,7 +143,10 @@ export class MapaService {
         position: location.latlng,
         map,
         animation: google.maps.Animation.DROP,
-        icon: 'assets/map/marker.png'
+        icon:
+          location.situacao === 'perdido'
+            ? 'assets/map/marker_perdido.png'
+            : 'assets/map/marker_achado.png'
       });
     });
 
@@ -163,20 +166,25 @@ export class MapaService {
         }
         const infowindow = new google.maps.InfoWindow({
           content:
-            '<div class="info-window ion-text-center">' +
-            '<ion-title>' +
+            '<ion-card class="ion-text-center" style="margin-left: 2px; margin-right: 2px">' +
+            '<ion-item class="bg-class">' +
+            '<ion-label>' +
             locations[i].title +
-            '</ion-title>' +
-            '<div class="info-content">' +
-            '<p>' +
+            '</ion-label>' +
+            '</ion-item>' +
+            '<ion-card-content>' +
+            '<div>' +
             locations[i].descricao +
-            '</p>' +
             '</div>' +
+            '<ion-note color="danger">' +
+            locations[i].situacao +
+            '</ion-note>' +
+            '</ion-card-content>' +
+            '</ion-card>' +
             '<ion-button onClick="window.ionicPageRef.zone.run(function () { window.ionicPageRef.component.showItemInfo(\'' +
             locations[i].id +
             '\') })"' +
-            'expand="full" fill="outline">Ver Mais</ion-button>' +
-            '</div>',
+            'expand="block" style="color:#fff"> Ver Mais </ion-button>',
           maxWidth: 400
         });
         this.lastWindow = infowindow;

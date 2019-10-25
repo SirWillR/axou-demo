@@ -1,9 +1,31 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>mostra-item</ion-title>
+  <ion-toolbar class="bg-class">
+    <ion-buttons slot="start">
+      <ion-back-button
+        color="light"
+        defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>TITULO</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-item>
+      <ion-icon
+        name="pin"
+        slot="start"></ion-icon>
+      <ion-label>locations[i].title</ion-label>
+      <ion-button
+        fill="outline"
+        slot="end">
+        Ver Mais
+      </ion-button>
+    </ion-item>
 
+    <ion-card-content class="ion-text-center">
+      <div>locations[i].descricao</div>
+      <ion-note color="danger">locations[i].situacao</ion-note>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

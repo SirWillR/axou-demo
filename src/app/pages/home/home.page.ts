@@ -72,7 +72,8 @@ export class HomePage {
             id: x.id,
             title: x.titulo,
             descricao: x.descricao,
-            latlng: x.latLng
+            latlng: x.latLng,
+            situacao: x.situacao
           })
         );
         this.activeInfoWindow = this.mapaService.showItens(
@@ -90,7 +91,7 @@ export class HomePage {
   }
 
   showItemInfo(id: string) {
-    alert(id);
+    this.navCtrl.navigateForward(['mostra-item', { id }]);
   }
 
   formPesquisar() {

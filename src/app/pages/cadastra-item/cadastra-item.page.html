@@ -88,7 +88,9 @@
           </ion-grid>
           <ion-item>
             <ion-label position="floating">Título</ion-label>
-            <ion-input formControlName="titulo"></ion-input>
+            <ion-input
+              formControlName="titulo"
+              maxlength="20"></ion-input>
             <ion-note
               slot="end"
               color="danger"
@@ -107,7 +109,7 @@
             <ion-textarea
               formControlName="descricao"
               required="true"
-              maxlength="50"
+              maxlength="200"
               placeholder="Informe alguma descrição..."></ion-textarea>
             <ion-note
               slot="end"
@@ -150,17 +152,17 @@
                 <ion-label>Situação</ion-label>
               </ion-list-header>
               <ion-item>
-                <ion-label>Achado</ion-label>
-                <ion-radio
-                  slot="start"
-                  value="achado"
-                  checked></ion-radio>
-              </ion-item>
-              <ion-item>
                 <ion-label>Perdido</ion-label>
                 <ion-radio
                   slot="start"
-                  value="perdido"></ion-radio>
+                  value="Perdido"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>Achado</ion-label>
+                <ion-radio
+                  slot="start"
+                  value="Achado"
+                  checked></ion-radio>
               </ion-item>
             </ion-radio-group>
           </ion-list>
