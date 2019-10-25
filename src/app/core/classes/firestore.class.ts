@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 export abstract class Firestore<T extends { id: string }> {
   protected collection: AngularFirestoreCollection<T>;
 
-  constructor(protected db: AngularFirestore) { }
+  constructor(protected db: AngularFirestore) {}
 
   protected setCollection(path: string, queryFn?: QueryFn): void {
     this.collection = path ? this.db.collection(path, queryFn) : null;
@@ -13,7 +13,7 @@ export abstract class Firestore<T extends { id: string }> {
   private setItem(item: T, operation: string): Promise<T> {
     return this.collection
       .doc<T>(item.id)
-    [operation](item)
+      [operation](item)
       .then(() => item);
   }
 

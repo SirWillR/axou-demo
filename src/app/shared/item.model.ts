@@ -3,7 +3,10 @@ export class ItemClass {
   titulo: string;
   descricao: string;
   tipo: string;
-  data: string;
+  data: number;
   situacao: string;
-  latLng: string;
+  latLng: {lag: number, lng: number};
+  cidade: string;
+  uf: string;
+  pais: string;
 }
