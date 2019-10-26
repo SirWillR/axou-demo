@@ -26,21 +26,21 @@
             <ion-select
               placeholder="Selecione"
               formControlName="tipo">
-              <ion-select-option value="doc_pessoal">Documentos Pessoais</ion-select-option>
-              <ion-select-option value="animal">Animais (Cães e Gatos, Etc)</ion-select-option>
-              <ion-select-option value="celular">Celulares / Smartphones / Etc</ion-select-option>
-              <ion-select-option value="veiculo">Veículos (Carros, Motos)</ion-select-option>
-              <ion-select-option value="chave">Chaves e Chaveiros</ion-select-option>
-              <ion-select-option value="eletronico">
+              <ion-select-option>Documentos Pessoais</ion-select-option>
+              <ion-select-option>Animais (Cães e Gatos, Etc)</ion-select-option>
+              <ion-select-option>Celulares / Smartphones / Etc</ion-select-option>
+              <ion-select-option>Veículos (Carros, Motos)</ion-select-option>
+              <ion-select-option>Chaves e Chaveiros</ion-select-option>
+              <ion-select-option>
                 Eletrônicos / Computadores / Tablets, Etc
               </ion-select-option>
-              <ion-select-option value="acessorio">
+              <ion-select-option>
                 Canetas / Relógio / Joias, Alianças, Cordões, Etc
               </ion-select-option>
-              <ion-select-option value="bolsa">Carteiras / Bolsas e Malas</ion-select-option>
-              <ion-select-option value="outro">Outros</ion-select-option>
-              <ion-select-option value="vestimenta">Roupas e Calçados</ion-select-option>
-              <ion-select-option value="pessoa">Pessoas Desaparecidas</ion-select-option>
+              <ion-select-option>Carteiras / Bolsas e Malas</ion-select-option>
+              <ion-select-option>Outros</ion-select-option>
+              <ion-select-option>Roupas e Calçados</ion-select-option>
+              <ion-select-option>Pessoas Desaparecidas</ion-select-option>
             </ion-select>
           </ion-item>
           <ion-grid>
@@ -104,6 +104,12 @@
               slot="icon-only"
               name="search"></ion-icon>
             Pesquisar
+          </ion-button>
+          <ion-button
+            expand="block"
+            (click)="limpar()"
+            fill="outline">
+            Limpar
           </ion-button>
         </form>
       </ion-col>

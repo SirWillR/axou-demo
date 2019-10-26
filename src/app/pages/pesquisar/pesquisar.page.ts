@@ -23,8 +23,12 @@ export class PesquisarPage implements OnInit {
       tipo: [''],
       data_inicio: [''],
       data_fim: [''],
-      situacao: ['achado', [Validators.required]]
+      situacao: ['Achado', [Validators.required]]
     });
+  }
+
+  limpar() {
+    this.navCtrl.navigateBack(['home/map']);
   }
 
   minStartDate(): string {

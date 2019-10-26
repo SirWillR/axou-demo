@@ -33,8 +33,24 @@ export class MapPage {
   ) {}
 
   ionViewDidEnter() {
-    if (!this.map) {
+    if (typeof this.map === 'undefined') {
       this.loadMap();
+    } else {
+      this.showItensMarker();
+      this.goToMap();
+    }
+  }
+
+  private goToMap() {
+    if (
+      this.activatedRoute.snapshot.paramMap.get('lat') != null &&
+      this.activatedRoute.snapshot.paramMap.get('lng') != null
+    ) {
+      this.mapaService.goToMap(
+        this.map,
+        this.activatedRoute.snapshot.paramMap.get('lat'),
+        this.activatedRoute.snapshot.paramMap.get('lng')
+      );
     }
   }
 
@@ -49,9 +65,10 @@ export class MapPage {
       this.zoomOutElement
     );
     this.showItensMarker();
+    this.goToMap();
   }
 
-  async showItensMarker(): Promise<void> {
+  showItensMarker() {
     try {
       this.itensService.setitens({
         tipo:

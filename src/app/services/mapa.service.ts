@@ -43,6 +43,12 @@ export class MapaService {
       );
   }
 
+  goToMap(map: any, lat: string, lng: string) {
+    const center = new google.maps.LatLng(lat, lng);
+    map.panTo(center);
+    map.setZoom(19);
+  }
+
   addActionButton(map: any, button: any) {
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(button.nativeElement);
   }
@@ -126,9 +132,15 @@ export class MapaService {
             );
           } else {
             console.log('No reverse geocode results.');
+            cidade.setValue(null);
+            uf.setValue(null);
+            pais.setValue(null);
           }
         } else {
           console.log('Geocoder failed: ' + status);
+          cidade.setValue(null);
+          uf.setValue(null);
+          pais.setValue(null);
         }
       });
     });
@@ -143,6 +155,7 @@ export class MapaService {
     const markers = locations.map(location => {
       return new google.maps.Marker({
         position: location.latlng,
+        animation: google.maps.Animation.DROP,
         map,
         icon:
           location.situacao === 'Perdido'
@@ -197,7 +210,10 @@ export class MapaService {
   }
 
   private clearOverlays() {
-    this.markersArray.forEach(marker => marker.setMap(null));
-    this.markersArray.length = 0;
+    this.markersArray.forEach(marker => {
+      marker.setMap(null);
+      const index = this.markersArray.indexOf(marker);
+      this.markersArray.splice(index, 1);
+    });
   }
 }
