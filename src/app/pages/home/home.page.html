@@ -1,71 +1,12 @@
-<ion-header>
-  <ion-toolbar class="bg-class">
-    <ion-row>
-      <ion-col>
-        <ion-buttons>
-          <ion-menu-toggle>
-            <ion-button>
-              <ion-icon
-                slot="icon-only"
-                name="menu"></ion-icon>
-            </ion-button>
-          </ion-menu-toggle>
-        </ion-buttons>
-      </ion-col>
-      <ion-col class="ion-text-end">
-        <ion-button
-          (click)="loadMap()"
-          shape="round"
-          fill="outline"
-          color="light">
-          <ion-icon
-            slot="start"
-            name="locate"
-            color="light"></ion-icon>
-          Onde estou
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-toolbar>
-</ion-header>
-<ion-content class="angular-google-map-container">
-  <div class="map-wrapper">
-    <input
-      #pacInput
-      id="pacInput"
-      name="location"
-      class="form-control search-box-map"
-      type="text"
-      placeholder="Pesquisar">
-    <div
-      #map
-      id="map"></div>
-    <div style="display: none">
-      <div
-        #zoomControl
-        class="controls zoom-control">
-        <button
-          #zoomIn
-          class="controls zoom-control-in"
-          title="Zoom In">
-          +
-        </button>
-        <button
-          #zoomOut
-          class="zoom-control-out"
-          title="Zoom Out">
-          &minus;
-        </button>
-      </div>
-      <div #actionButton>
-        <ion-button
-          class="button-redondo"
-          (click)="formPesquisar()">
-          <ion-icon
-            slot="icon-only"
-            name="search"></ion-icon>
-        </ion-button>
-      </div>
-    </div>
-  </div>
-</ion-content>
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="map">
+      <ion-icon name="map"></ion-icon>
+      <ion-label>Mapa</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="lista">
+      <ion-icon name="list"></ion-icon>
+      <ion-label>Lista</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

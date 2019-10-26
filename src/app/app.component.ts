@@ -22,7 +22,7 @@ export class AppComponent {
 
   initializeApp() {
     this.pages = [
-      { url: '/home', direction: 'back', icon: 'home', text: 'Home' },
+      { url: '/home/map', direction: 'back', icon: 'home', text: 'Home' },
       { url: '/cadastra-item', direction: 'forward', icon: 'add', text: 'Cadastrar Item' },
       {
         url: '/informacoes',
