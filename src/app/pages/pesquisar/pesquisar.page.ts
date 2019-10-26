@@ -69,6 +69,6 @@ export class PesquisarPage implements OnInit {
     if (dataInicio.value) {
       this.searchForm.get('data_inicio').setValue(moment(dataInicio.value).format('YYYY-MM-DD'));
     }
-    this.navCtrl.navigateRoot(['home', this.searchForm.value]);
+    this.navCtrl.navigateBack(['home', this.searchForm.value]);
   }
 }

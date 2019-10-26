@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { ItensService } from 'src/app/services/itens.service';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import { NavController } from '@ionic/angular';
+import { ItemClass } from 'src/app/shared/item.model';
 
 @Component({
   selector: 'app-cadastra-item',
@@ -23,7 +25,8 @@ export class CadastraItemPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private mapaService: MapaService,
-    private itensService: ItensService
+    private itensService: ItensService,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
@@ -97,6 +100,9 @@ export class CadastraItemPage implements OnInit {
     const data = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
     this.data.setValue(firebase.firestore.Timestamp.fromDate(data));
     this.latLng.setValue(JSON.parse(this.latLng.value));
-    this.itensService.create(this.cadastroForm.value);
+    this.itensService.create(this.cadastroForm.value).then(item => {
+      const id = item.id;
+      return this.navCtrl.navigateForward(['mostra-item', { id }]);
+    });
   }
 }
