@@ -1,0 +1,37 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "itens",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "situacao",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "data",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "itens",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "situacao",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "tipo",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "data",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
