@@ -44,7 +44,11 @@
       </div>
     </div>
   </div>
-  <ion-note color="medium">* Selecione no mapa</ion-note>
+  <ion-note
+    color="danger"
+    *ngIf="cidade.hasError('required') || uf.hasError('required') || pais.hasError('required')">
+    * Selecione no mapa
+  </ion-note>
   <ion-grid>
     <ion-row class="ion-justify-content-center">
       <ion-col
