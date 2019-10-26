@@ -12,6 +12,7 @@ declare var MarkerClusterer;
 })
 export class MapaService {
   lastWindow: any = null;
+  markersArray: any[] = [];
 
   constructor(private geolocation: Geolocation, private nativeGeocoder: NativeGeocoder) {}
 
@@ -138,11 +139,11 @@ export class MapaService {
     locations: { latlng: {}; id: string; title: string; descricao: string; situacao: string }[],
     window: any
   ) {
+    this.clearOverlays();
     const markers = locations.map(location => {
       return new google.maps.Marker({
         position: location.latlng,
         map,
-        animation: google.maps.Animation.DROP,
         icon:
           location.situacao === 'Perdido'
             ? 'assets/map/marker_perdido.png'
@@ -160,6 +161,7 @@ export class MapaService {
     });
 
     markers.forEach((marker, i) => {
+      this.markersArray.push(marker);
       marker.addListener('click', () => {
         if (this.lastWindow) {
           this.lastWindow.close();
@@ -189,8 +191,13 @@ export class MapaService {
         });
         this.lastWindow = infowindow;
         infowindow.open(map, marker);
-        map.panTo(marker.getPosition());
+        map.panTo(infowindow.getPosition());
       });
     });
+  }
+
+  private clearOverlays() {
+    this.markersArray.forEach(marker => marker.setMap(null));
+    this.markersArray.length = 0;
   }
 }
