@@ -1,5 +1,6 @@
 import { AngularFirestore, AngularFirestoreCollection, QueryFn } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 export abstract class Firestore<T extends { id: string }> {
   protected collection: AngularFirestoreCollection<T>;
@@ -10,7 +11,7 @@ export abstract class Firestore<T extends { id: string }> {
     this.collection = path ? this.db.collection(path, queryFn) : null;
   }
 
-  private setItem(item: T, operation: string): Promise<T> {
+  private async setItem(item: T, operation: string): Promise<T> {
     return this.collection
       .doc<T>(item.id)
       [operation](item)
@@ -18,11 +19,14 @@ export abstract class Firestore<T extends { id: string }> {
   }
 
   getAll(): Observable<T[]> {
-    return this.collection.valueChanges();
+    return this.collection.valueChanges().pipe(take(1));
   }
 
   get(id: string): Observable<T> {
-    return this.collection.doc<T>(id).valueChanges();
+    return this.collection
+      .doc<T>(id)
+      .valueChanges()
+      .pipe(take(1));
   }
 
   create(item: T): Promise<T> {
