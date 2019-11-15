@@ -1,0 +1,26 @@
+<div
+  #map
+  id="map"></div>
+
+<div
+  #zoomControl
+  class="zoom-control">
+  <ion-icon
+    (click)="goLocMap()"
+    color="primary"
+    class="button-zoom"
+    slot="icon-only"
+    name="locate"></ion-icon>
+  <ion-icon
+    #zoomIn
+    color="primary"
+    class="button-zoom"
+    slot="icon-only"
+    name="add-circle"></ion-icon>
+  <ion-icon
+    #zoomOut
+    color="primary"
+    class="button-zoom"
+    slot="icon-only"
+    name="remove-circle"></ion-icon>
+</div>
