@@ -49,10 +49,6 @@ export class MapaService {
     map.setZoom(19);
   }
 
-  addActionButton(map: any, button: any) {
-    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(button.nativeElement);
-  }
-
   addZoomControl(map: any, control: any, zoonIn: any, zoonOut: any) {
     zoonIn.nativeElement.onclick = () => {
       map.setZoom(map.getZoom() + 1);
@@ -60,12 +56,12 @@ export class MapaService {
     zoonOut.nativeElement.onclick = () => {
       map.setZoom(map.getZoom() - 1);
     };
-    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(control.nativeElement);
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(control.nativeElement);
   }
 
   addSearchBox(map: any, input: ElementRef) {
-    const searchBox = new google.maps.places.SearchBox(input.nativeElement);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input.nativeElement);
+    const inputField = input.nativeElement.children[0].children[0];
+    const searchBox = new google.maps.places.SearchBox(inputField);
 
     map.addListener('bounds_changed', () => {
       searchBox.setBounds(map.getBounds());

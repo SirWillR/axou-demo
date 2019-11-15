@@ -1,38 +1,83 @@
-<ion-split-pane
-  contentId="menu-content"
-  when="md">
-  <!-- our side menu -->
-  <ion-menu contentId="menu-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-grid>
-          <ion-row class="ion-justify-content-center">
-            <img
-              src="../../assets/logo.png"
-              width="150px">
-          </ion-row>
-        </ion-grid>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-menu-toggle autoHide="false">
-          <ion-item
-            button
-            *ngFor="let page of pages"
-            [routerLink]="page.url"
-            [routerDirection]="page.direction">
-            <ion-icon
+<ion-app>
+  <ion-split-pane
+    contentId="menu-content"
+    when="md">
+    <!-- our side menu -->
+    <ion-menu contentId="menu-content">
+      <ion-header>
+        <ion-toolbar
+          color="dark"
+          class="user-profile">
+          <ion-item class="ion-margin-bottom">
+            <ion-avatar
               slot="start"
-              color="primary"
-              [name]="page.icon"></ion-icon>
-            <ion-label>{{ page.text }}</ion-label>
+              class="user-avatar">
+              <img src="assets/img/avatar.jpeg">
+            </ion-avatar>
+            <ion-label>
+              <ion-text color="medium">
+                <h1>
+                  <strong>João Firmino</strong>
+                </h1>
+              </ion-text>
+              <ion-text color="secondary">
+                <h3>São Paulo, Brasil</h3>
+              </ion-text>
+              <ion-menu-toggle
+                class="mto"
+                auto-hide="false">
+                <a
+                  class="text08"
+                  tappable
+                  (click)="goToEditPerfil()">
+                  <ion-text color="medium">
+                    <ion-icon name="contact"></ion-icon>
+                    <strong>Editar Perfil</strong>
+                  </ion-text>
+                </a>
+                <ion-text
+                  color="secondary"
+                  class="ion-padding">
+                  |
+                </ion-text>
+                <a
+                  class="text08"
+                  tappable
+                  (click)="logout()">
+                  <ion-text color="medium">
+                    <ion-icon name="log-out"></ion-icon>
+                    <strong>Sair</strong>
+                  </ion-text>
+                </a>
+              </ion-menu-toggle>
+            </ion-label>
           </ion-item>
-        </ion-menu-toggle>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="bg-profile">
+        <ion-list>
+          <ion-list-header color="dark">
+            <ion-label>Menu</ion-label>
+          </ion-list-header>
+          <ion-menu-toggle autoHide="false">
+            <ion-item
+              button
+              color="primary"
+              *ngFor="let page of pages"
+              [routerLink]="page.url"
+              [routerDirection]="page.direction">
+              <ion-icon
+                slot="start"
+                color="light"
+                [name]="page.icon"></ion-icon>
+              <ion-label>{{ page.text }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
 
-  <!-- the main content -->
-  <ion-router-outlet id="menu-content"></ion-router-outlet>
-</ion-split-pane>
+    <!-- the main content -->
+    <ion-router-outlet id="menu-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

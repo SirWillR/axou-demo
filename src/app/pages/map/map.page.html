@@ -1,74 +1,48 @@
 <ion-header>
-  <ion-toolbar class="bg-class">
-    <ion-row>
-      <ion-col>
-        <ion-buttons>
-          <ion-menu-toggle>
-            <ion-button>
-              <ion-icon
-                slot="icon-only"
-                name="menu"></ion-icon>
-            </ion-button>
-          </ion-menu-toggle>
-        </ion-buttons>
-      </ion-col>
-      <ion-col class="ion-text-end">
-        <ion-button
-          (click)="goLocMap()"
-          shape="round"
-          fill="outline"
-          color="light">
-          <ion-icon
-            slot="start"
-            name="locate"
-            color="light"></ion-icon>
-          Onde estou
-        </ion-button>
-      </ion-col>
-    </ion-row>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button color="secondary"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <ion-text color="light">
+        <ion-text
+          color="light"
+          class="fw700">
+          Encontrar
+        </ion-text>
+      </ion-text>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        size="small"
+        shape="round"
+        color="medium">
+        <ion-icon name="notifications"></ion-icon>
+        <ion-badge
+          color="dark"
+          slot="end">
+          2
+        </ion-badge>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
-</ion-header>
-<ion-content class="angular-google-map-container">
-  <div class="map-wrapper">
-    <input
+  <ion-toolbar color="dark">
+    <ion-searchbar
       #pacInput
       id="pacInput"
-      name="location"
-      class="form-control search-box-map"
-      type="text"
-      placeholder="Pesquisar">
-    <div
-      #map
-      id="map"></div>
-    <div style="display: none">
-      <div
-        #zoomControl
-        class="controls zoom-control"
-        style="margin-bottom: 50px;">
-        <button
-          #zoomIn
-          class="controls zoom-control-in"
-          title="Zoom In">
-          +
-        </button>
-        <button
-          #zoomOut
-          class="zoom-control-out"
-          title="Zoom Out">
-          &minus;
-        </button>
-      </div>
-      <div
-        #actionButton
-        style="margin-bottom: 50px;">
-        <ion-button
-          class="button-redondo"
-          (click)="formPesquisar()">
-          <ion-icon
-            slot="icon-only"
-            name="search"></ion-icon>
-        </ion-button>
-      </div>
-    </div>
-  </div>
+      placeholder="Endereço"></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button
+        size="small"
+        shape="round"
+        color="medium"
+        (click)="formPesquisar()">
+        <ion-icon name="options"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <app-mapa [pacInput]="pacInputElement"></app-mapa>
+
 </ion-content>

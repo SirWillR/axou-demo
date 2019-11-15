@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { MapPage } from './map.page';
+import { MapaComponent } from 'src/app/components/mapa/mapa.component';
 
 const routes: Routes = [
   {
@@ -15,12 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [MapPage]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes)],
+  declarations: [MapPage, MapaComponent]
 })
 export class MapPageModule {}
