@@ -1,10 +1,11 @@
 import { Component, ViewChild, ElementRef, NgZone, OnInit, Input } from '@angular/core';
 import { MapaService } from 'src/app/services/mapa.service';
-import { NavController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { NavController, ModalController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ItensService } from 'src/app/services/itens.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { OverlayService } from 'src/app/services/overlay.service';
+import { MostraItemPage } from 'src/app/pages/mostra-item/mostra-item.page';
 
 declare var google;
 
@@ -27,40 +28,54 @@ export class MapaComponent implements OnInit {
 
   constructor(
     private mapaService: MapaService,
-    private navCtrl: NavController,
+    private modalCtrl: ModalController,
     public ngZone: NgZone,
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private itensService: ItensService,
     private geolocation: Geolocation,
     private overlayService: OverlayService
-  ) {}
-
-  ngOnInit() {
-    this.loadMap();
+  ) {
+    this.activatedRoute.queryParams.subscribe(async () => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        const params = this.router.getCurrentNavigation().extras.state.params;
+        const latLng = this.router.getCurrentNavigation().extras.state.latLng;
+        if (params) {
+          const loading = await this.overlayService.loading();
+          this.itensService.setitens(params);
+          await this.mapaService
+            .reloadMap(this.mapElement, this.map.getZoom(), this.map.getCenter())
+            .then(mapa => {
+              this.map = mapa;
+              this.addMapStatus();
+            })
+            .catch(erro => {
+              this.overlayService.toast({
+                message: 'Falha ao carregar o mapa: ' + erro
+              });
+            })
+            .finally(() => {
+              loading.dismiss();
+            });
+        }
+        if (latLng) {
+          this.mapaService.goToMap(this.map, latLng.lat, latLng.lng);
+        }
+      }
+    });
   }
 
-  async loadMap() {
+  async ngOnInit() {
     const loading = await this.overlayService.loading();
     await this.mapaService
       .loadMap(this.mapElement)
       .then(mapa => {
-        if (!mapa) {
-          throw new Error('Falha ao carregar o mapa');
-        }
         this.map = mapa;
-        this.mapaService.addSearchBox(this.map, this.pacInput);
-        this.mapaService.addZoomControl(
-          this.map,
-          this.zoomControlElement,
-          this.zoomInElement,
-          this.zoomOutElement
-        );
-        this.showItensMarker();
-        this.goToMap();
+        this.addMapStatus();
       })
-      .catch(err => {
+      .catch(erro => {
         this.overlayService.toast({
-          message: err
+          message: 'Falha ao carregar o mapa: ' + erro
         });
       })
       .finally(() => {
@@ -68,29 +83,25 @@ export class MapaComponent implements OnInit {
       });
   }
 
-  private goToMap() {
-    if (this.getParam('lat') != null && this.getParam('lng') != null) {
-      this.mapaService.goToMap(this.map, this.getParam('lat'), this.getParam('lng'));
-    }
-  }
-
-  showItensMarker() {
-    try {
-      this.itensService.setitens({
-        tipo: this.getParam('tipo') != null ? this.getParam('tipo') : null,
-        dataInicio: this.getParam('data_inicio') != null ? this.getParam('data_inicio') : null,
-        dataFim: this.getParam('data_fim') != null ? this.getParam('data_fim') : null,
-        situacao: this.getParam('situacao') != null ? this.getParam('situacao') : null
-      });
+  async addMapStatus() {
+    return new Promise(() => {
+      this.mapaService.addSearchBox(this.map, this.pacInput);
+      this.mapaService.addZoomControl(
+        this.map,
+        this.zoomControlElement,
+        this.zoomInElement,
+        this.zoomOutElement
+      );
       this.itensService.getAll().subscribe(itens => {
         const locations = [];
-        itens.map(x =>
+        itens.map(item =>
           locations.push({
-            id: x.id,
-            title: x.titulo,
-            descricao: x.descricao,
-            latlng: x.latLng,
-            situacao: x.situacao
+            id: item.id,
+            title: item.titulo,
+            descricao: item.descricao,
+            latlng: item.latLng,
+            situacao: item.situacao,
+            tipo: item.tipo
           })
         );
         this.activeInfoWindow = this.mapaService.showItens(
@@ -102,9 +113,7 @@ export class MapaComponent implements OnInit {
           })
         );
       });
-    } catch (error) {
-      console.log('Erro ao carregar os itens: ', error);
-    }
+    });
   }
 
   goLocMap() {
@@ -122,7 +131,15 @@ export class MapaComponent implements OnInit {
   }
 
   showItemInfo(id: string) {
-    this.navCtrl.navigateForward(['mostra-item', { id }]);
+    this.modalCtrl
+      .create({
+        component: MostraItemPage,
+        componentProps: {
+          id
+        }
+      })
+      .then(modal => modal.present());
+    // this.navCtrl.navigateForward(['mostra-item', { id }]);
   }
 
   getParam(param: string) {

@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-map',
@@ -8,9 +8,11 @@ import { NavController } from '@ionic/angular';
 })
 export class MapPage {
   @ViewChild('pacInput', { read: ElementRef, static: true }) pacInputElement: ElementRef;
-  constructor(private navCtrl: NavController) {}
+
+  params: any;
+  constructor(private router: Router) {}
 
   formPesquisar() {
-    this.navCtrl.navigateForward(['pesquisar']);
+    this.router.navigate(['pesquisar']);
   }
 }

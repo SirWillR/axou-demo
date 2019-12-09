@@ -1,11 +1,20 @@
 :host {
   ion-content {
-    --background: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary));
+    // --background: linear-gradient(to top, var(--ion-color-primary), var(--ion-color-light));
+    --background: #eee;
+  }
+
+  ion-list-header {
+    text-transform: uppercase;
   }
 
   ion-list {
     &.list-md {
       padding: 0;
     }
+  }
+
+  .logo {
+    padding: 5px 70px;
   }
 }

@@ -1,76 +1,65 @@
 <ion-app>
-  <ion-split-pane
-    contentId="menu-content"
-    when="md">
+  <ion-split-pane contentId="menu-content" when="md">
     <!-- our side menu -->
     <ion-menu contentId="menu-content">
       <ion-header>
-        <ion-toolbar
-          color="dark"
-          class="user-profile">
-          <ion-item class="ion-margin-bottom">
-            <ion-avatar
-              slot="start"
-              class="user-avatar">
-              <img src="assets/img/avatar.jpeg">
+        <ion-toolbar *ngIf="user" class="user-profile">
+          <ion-item class="ion-margin-bottom" lines="none">
+            <ion-avatar slot="start" class="user-avatar">
+              <img src="assets/img/avatar.jpeg" />
             </ion-avatar>
             <ion-label>
-              <ion-text color="medium">
+              <ion-text>
                 <h1>
-                  <strong>João Firmino</strong>
+                  <strong>{{ user.displayName }}</strong>
                 </h1>
               </ion-text>
-              <ion-text color="secondary">
-                <h3>São Paulo, Brasil</h3>
-              </ion-text>
-              <ion-menu-toggle
-                class="mto"
-                auto-hide="false">
-                <a
-                  class="text08"
-                  tappable
-                  (click)="goToEditPerfil()">
-                  <ion-text color="medium">
-                    <ion-icon name="contact"></ion-icon>
-                    <strong>Editar Perfil</strong>
-                  </ion-text>
-                </a>
-                <ion-text
-                  color="secondary"
-                  class="ion-padding">
-                  |
-                </ion-text>
-                <a
-                  class="text08"
-                  tappable
-                  (click)="logout()">
-                  <ion-text color="medium">
+              <ion-menu-toggle class="mto" auto-hide="false">
+                <a class="text08" tappable (click)="logout()">
+                  <ion-text color="secondary">
                     <ion-icon name="log-out"></ion-icon>
-                    <strong>Sair</strong>
+                    <strong>⠀Sair</strong>
                   </ion-text>
                 </a>
               </ion-menu-toggle>
             </ion-label>
           </ion-item>
         </ion-toolbar>
+        <ion-toolbar *ngIf="!user">
+          <ion-item lines="none" color="light">
+            <img src="assets/logo.png" class="logo" />
+          </ion-item>
+        </ion-toolbar>
       </ion-header>
       <ion-content class="bg-profile">
         <ion-list>
-          <ion-list-header color="dark">
+          <ion-list-header color="primary">
             <ion-label>Menu</ion-label>
           </ion-list-header>
           <ion-menu-toggle autoHide="false">
             <ion-item
-              button
-              color="primary"
+              lines="none"
               *ngFor="let page of pages"
               [routerLink]="page.url"
-              [routerDirection]="page.direction">
-              <ion-icon
-                slot="start"
-                color="light"
-                [name]="page.icon"></ion-icon>
-              <ion-label>{{ page.text }}</ion-label>
+              [routerDirection]="page.direction"
+            >
+              <ion-icon slot="start" color="primary" [name]="page.icon"></ion-icon>
+              <ion-label color="primary">{{ page.text }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-list-header color="primary">
+            <ion-label>Configurações</ion-label>
+          </ion-list-header>
+          <ion-menu-toggle autoHide="false">
+            <ng-container *ngIf="user">
+              <ion-item button (click)="logout()">
+                <ion-icon slot="start" color="primary" name="arrow-forward" mode="ios"></ion-icon>
+                <ion-label color="primary">Sair</ion-label>
+              </ion-item>
+            </ng-container>
+            <ion-item button lines="none" (click)="login()" *ngIf="!user">
+              <ion-icon slot="start" color="primary" name="arrow-forward" mode="ios"></ion-icon>
+              <ion-label color="primary">Logar/Cadastrar</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>

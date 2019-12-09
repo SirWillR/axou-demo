@@ -1,25 +1,19 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', loadChildren: './pages/home/home.module#HomePageModule' },
   {
-    path: 'home',
-    loadChildren: './pages/home/home.module#HomePageModule'
-  },
-  {
     path: 'cadastra-item',
-    loadChildren: './pages/cadastra-item/cadastra-item.module#CadastraItemPageModule'
+    loadChildren: './pages/cadastra-item/routing/cadastra-item.module#CadastraItemModule',
+    canLoad: [AuthGuard]
   },
   {
     path: 'informacoes',
     loadChildren: './pages/informacoes/informacoes.module#InformacoesPageModule'
   },
-  { path: 'pesquisar', loadChildren: './pages/pesquisar/pesquisar.module#PesquisarPageModule' },
-  {
-    path: 'mostra-item',
-    loadChildren: './pages/mostra-item/mostra-item.module#MostraItemPageModule'
-  }
+  { path: 'pesquisar', loadChildren: './pages/pesquisar/pesquisar.module#PesquisarPageModule' }
 ];
 
 @NgModule({

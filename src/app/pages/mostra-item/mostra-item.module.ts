@@ -15,12 +15,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [MostraItemPage]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes)]
 })
 export class MostraItemPageModule {}

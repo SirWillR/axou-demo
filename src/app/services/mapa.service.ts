@@ -1,8 +1,8 @@
 import { Injectable, ElementRef } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { mapStyle } from '../shared/mapStyle';
 import { FormControl } from '@angular/forms';
+import { OverlayService } from './overlay.service';
 
 declare var google;
 declare var MarkerClusterer;
@@ -14,33 +14,38 @@ export class MapaService {
   lastWindow: any = null;
   markersArray: any[] = [];
 
-  constructor(private geolocation: Geolocation, private nativeGeocoder: NativeGeocoder) {}
+  constructor(private geolocation: Geolocation, private overlayService: OverlayService) {}
 
-  loadMap(mapElement: ElementRef): Promise<any> {
-    return this.geolocation
+  async loadMap(mapElement: ElementRef): Promise<any> {
+    return await this.geolocation
       .getCurrentPosition()
-      .then(
-        resp =>
-          new google.maps.Map(mapElement.nativeElement, {
-            center: new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude),
-            zoom: 15,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            panControl: false,
-            disableDefaultUI: true,
-            styles: mapStyle
-          })
+      .then(resp =>
+        this.createMap(
+          mapElement.nativeElement,
+          new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude),
+          15
+        )
       )
-      .catch(
-        error =>
-          new google.maps.Map(mapElement.nativeElement, {
-            center: new google.maps.LatLng(-13.83, -48.02),
-            zoom: 4,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            panControl: false,
-            disableDefaultUI: true,
-            styles: mapStyle
-          })
+      .catch(() =>
+        this.createMap(mapElement.nativeElement, new google.maps.LatLng(-13.83, -48.02), 4)
       );
+  }
+
+  async reloadMap(mapElement: ElementRef, zoom: any, latLng: any) {
+    return new Promise(resolve => {
+      resolve(this.createMap(mapElement.nativeElement, latLng, zoom));
+    });
+  }
+
+  private createMap(mapa: any, latLng: any, zoom: any) {
+    return new google.maps.Map(mapa, {
+      center: latLng,
+      zoom,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      panControl: false,
+      disableDefaultUI: true,
+      styles: mapStyle
+    });
   }
 
   goToMap(map: any, lat: string, lng: string) {
@@ -60,8 +65,14 @@ export class MapaService {
   }
 
   addSearchBox(map: any, input: ElementRef) {
-    const inputField = input.nativeElement.children[0].children[0];
-    const searchBox = new google.maps.places.SearchBox(inputField);
+    let searchBox: any;
+    try {
+      const inputField = input.nativeElement.children[0].children[0];
+      searchBox = new google.maps.places.SearchBox(inputField);
+    } catch (err) {
+      searchBox = new google.maps.places.SearchBox(input.nativeElement);
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(input.nativeElement);
+    }
 
     map.addListener('bounds_changed', () => {
       searchBox.setBounds(map.getBounds());
@@ -144,10 +155,16 @@ export class MapaService {
 
   showItens(
     map: any,
-    locations: { latlng: {}; id: string; title: string; descricao: string; situacao: string }[],
+    locations: {
+      latlng: {};
+      id: string;
+      title: string;
+      descricao: string;
+      situacao: string;
+      tipo: string;
+    }[],
     window: any
   ) {
-    this.clearOverlays();
     const markers = locations.map(location => {
       return new google.maps.Marker({
         position: location.latlng,
@@ -177,25 +194,27 @@ export class MapaService {
         }
         const infowindow = new google.maps.InfoWindow({
           content:
-            '<ion-card class="ion-text-center" style="margin-left: 2px; margin-right: 2px">' +
+            '<ion-card class="infomarker">' +
             '<ion-item class="bg-class">' +
+            '<ion-avatar slot="start">' +
+            '<img src="assets/img/itens/' +
+            this.getItemType(locations[i].tipo) +
+            '.png">' +
+            '</ion-avatar>' +
             '<ion-label>' +
             locations[i].title +
             '</ion-label>' +
             '</ion-item>' +
             '<ion-card-content>' +
-            '<ion-note color="danger">' +
+            '<ion-note color="danger"><span style="color: #000">Situação: </span>' +
             locations[i].situacao +
             '</ion-note>' +
-            '<div>' +
-            locations[i].descricao +
-            '</div>' +
             '</ion-card-content>' +
             '</ion-card>' +
             '<ion-button onClick="window.ionicPageRef.zone.run(function () { window.ionicPageRef.component.showItemInfo(\'' +
             locations[i].id +
             '\') })"' +
-            'expand="block" style="color:#fff"> Ver Mais </ion-button>',
+            'expand="block" fill="outline"> Ver Mais </ion-button>',
           maxWidth: 400
         });
         this.lastWindow = infowindow;
@@ -205,11 +224,30 @@ export class MapaService {
     });
   }
 
-  private clearOverlays() {
-    this.markersArray.forEach(marker => {
-      marker.setMap(null);
-      const index = this.markersArray.indexOf(marker);
-      this.markersArray.splice(index, 1);
-    });
+  getItemType(tipo: any) {
+    switch (tipo) {
+      case 'Documentos Pessoais':
+        return 'documento';
+      case 'Animais (Cães e Gatos, Etc)':
+        return 'animal';
+      case 'Celulares / Smartphones / Etc':
+        return 'celular';
+      case 'Veículos (Carros, Motos)':
+        return 'veiculo';
+      case 'Chaves e Chaveiros':
+        return 'chave';
+      case 'Eletrônicos / Computadores / Tablets, Etc':
+        return 'notebook';
+      case 'Canetas / Relógio / Joias, Alianças, Cordões, Etc':
+        return 'joia';
+      case 'Carteiras / Bolsas e Malas':
+        return 'bolsa';
+      case 'Outros':
+        return 'outro';
+      case 'Roupas e Calçados':
+        return 'roupa';
+      case 'Pessoas Desaparecidas':
+        return 'pessoa';
+    }
   }
 }

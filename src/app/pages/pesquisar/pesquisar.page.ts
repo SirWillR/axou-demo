@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { NavController } from '@ionic/angular';
 import * as moment from 'moment';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-pesquisar',
@@ -12,7 +12,7 @@ export class PesquisarPage implements OnInit {
   searchForm: FormGroup;
   date: string;
 
-  constructor(private fb: FormBuilder, private navCtrl: NavController) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit() {
     this.createForm();
@@ -28,7 +28,7 @@ export class PesquisarPage implements OnInit {
   }
 
   limpar() {
-    this.navCtrl.navigateBack(['home/map']);
+    this.router.navigate(['home/map']);
   }
 
   minStartDate(): string {
@@ -73,6 +73,11 @@ export class PesquisarPage implements OnInit {
     if (dataInicio.value) {
       this.searchForm.get('data_inicio').setValue(moment(dataInicio.value).format('YYYY-MM-DD'));
     }
-    this.navCtrl.navigateBack(['home/map', this.searchForm.value]);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        params: this.searchForm.value
+      }
+    };
+    this.router.navigate(['home/map'], navigationExtras);
   }
 }

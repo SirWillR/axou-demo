@@ -1,0 +1,124 @@
+<ion-content class="ion-padding animated fadeIn login auth-page">
+  <div class="theme-bg"></div>
+  <div class="auth-content">
+    <!-- Logo -->
+    <div class="ion-padding-horizontal ion-text-center animated fadeInDown">
+      <div class="logo"></div>
+    </div>
+
+    <!-- Login form -->
+    <form [formGroup]="onLoginForm" class="list-form">
+      <ng-container *ngIf="!configs.isSignIn">
+        <ion-item class="ion-no-padding animated fadeInUp">
+          <ion-label position="floating">
+            <ion-icon name="person" item-start></ion-icon>
+            Nome
+          </ion-label>
+          <ion-input color="secondary" type="text" formControlName="name"></ion-input>
+        </ion-item>
+        <p
+          ion-text
+          class="text08"
+          *ngIf="onLoginForm.get('name').touched && onLoginForm.get('name').hasError('required')"
+        >
+          <ion-text color="warning">Obrigatório</ion-text>
+        </p>
+        <p
+          ion-text
+          color="warning"
+          class="text08"
+          *ngIf="onLoginForm.get('name').dirty && onLoginForm.get('name').hasError('minlength')"
+        >
+          <ion-text color="warning">Mínimo 3 caracteres</ion-text>
+        </p>
+      </ng-container>
+      <ion-item class="ion-no-padding animated fadeInUp">
+        <ion-label position="floating">
+          <ion-icon name="mail" item-start></ion-icon>
+          Email
+        </ion-label>
+        <ion-input color="secondary" type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <p
+        ion-text
+        class="text08"
+        *ngIf="onLoginForm.get('email').touched && onLoginForm.get('email').hasError('required')"
+      >
+        <ion-text color="warning">Obrigatório</ion-text>
+      </p>
+      <p
+        ion-text
+        class="text08"
+        *ngIf="onLoginForm.get('email').dirty && onLoginForm.get('email').hasError('email')"
+      >
+        <ion-text color="warning">Inválido</ion-text>
+      </p>
+
+      <ion-item class="ion-no-padding animated fadeInUp">
+        <ion-label position="floating">
+          <ion-icon name="lock" item-start></ion-icon>
+          Senha
+        </ion-label>
+        <ion-input color="secondary" type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <p
+        ion-text
+        color="warning"
+        class="text08"
+        *ngIf="onLoginForm.get('password').touched && onLoginForm.get('password').hasError('required')"
+      >
+        <ion-text color="warning">Obrigatório</ion-text>
+      </p>
+      <p
+        ion-text
+        color="warning"
+        class="text08"
+        *ngIf="onLoginForm.get('password').dirty && onLoginForm.get('password').hasError('minlength')"
+      >
+        <ion-text color="warning">Mínimo 6 caracteres</ion-text>
+      </p>
+    </form>
+
+    <p class="ion-text-right paz" tappable (click)="forgotPass()">
+      <ion-text color="light">
+        <strong>Esqueceu a senha?</strong>
+      </ion-text>
+    </p>
+
+    <div>
+      <ion-button
+        icon-left
+        size="medium"
+        expand="full"
+        shape="round"
+        color="dark"
+        (click)="goToHome(authProviders.Email)"
+        [disabled]="!onLoginForm.valid"
+        tappable
+      >
+        <ion-icon name="log-in"></ion-icon>
+        {{configs.action}}
+      </ion-button>
+
+      <ion-button
+        (click)="chageAuthAction()"
+        shape="round"
+        expand="full"
+        fill="clear"
+        color="light"
+      >
+        {{configs.actionChange}}
+      </ion-button>
+
+      <ion-button
+        (click)="goToHome(authProviders.Facebook)"
+        shape="round"
+        expand="full"
+        color="secondary"
+      >
+        <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
+        Entrar com Facebook
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

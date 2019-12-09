@@ -1,18 +1,15 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-toggle>
         <ion-button>
-          <ion-icon
-            slot="icon-only"
-            name="menu"></ion-icon>
+          <ion-icon color="light" slot="icon-only" name="menu"></ion-icon>
         </ion-button>
       </ion-menu-toggle>
     </ion-buttons>
-    <ion-title>Cadastrar Item</ion-title>
+    <ion-title color="light">Cadastrar Item</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content class="ion-padding">
   <div class="map-wrapper">
     <input
@@ -21,24 +18,15 @@
       name="location"
       class="form-control search-box-map"
       type="text"
-      placeholder="Pesquisar">
-    <div
-      #map
-      id="map"></div>
+      placeholder="Pesquisar"
+    />
+    <div #map id="map"></div>
     <div style="display: none">
-      <div
-        #zoomControl
-        class="controls zoom-control">
-        <button
-          #zoomIn
-          class="controls zoom-control-in"
-          title="Zoom In">
+      <div #zoomControl class="controls zoom-control">
+        <button #zoomIn class="controls zoom-control-in" title="Zoom In">
           +
         </button>
-        <button
-          #zoomOut
-          class="zoom-control-out"
-          title="Zoom Out">
+        <button #zoomOut class="zoom-control-out" title="Zoom Out">
           &minus;
         </button>
       </div>
@@ -46,65 +34,35 @@
   </div>
   <ion-note
     color="danger"
-    *ngIf="cidade.hasError('required') || uf.hasError('required') || pais.hasError('required')">
+    *ngIf="cidade.hasError('required') || uf.hasError('required') || pais.hasError('required')"
+  >
     * Selecione no mapa
   </ion-note>
   <ion-grid>
     <ion-row class="ion-justify-content-center">
-      <ion-col
-        size-xm="12"
-        size-sm="12"
-        size-md="12"
-        size-lg="10"
-        size-xl="8">
-        <form
-          [formGroup]="cadastroForm"
-          (submit)="onSubmit()">
+      <ion-col size-xm="12" size-sm="12" size-md="12" size-lg="10" size-xl="8">
+        <form [formGroup]="cadastroForm" (submit)="onSubmit()">
           <ion-grid>
             <ion-row>
               <ion-col size="12">
-                <ion-item>
-                  <ion-label position="stacked">Cidade</ion-label>
-                  <ion-input
-                    formControlName="cidade"
-                    readonly="true"></ion-input>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col size="6">
-                <ion-item>
-                  <ion-label position="stacked">Estado</ion-label>
-                  <ion-input
-                    formControlName="uf"
-                    readonly="true"></ion-input>
-                </ion-item>
-              </ion-col>
-              <ion-col size="6">
-                <ion-item>
-                  <ion-label position="stacked">País</ion-label>
-                  <ion-input
-                    formControlName="pais"
-                    readonly="true"></ion-input>
+                <ion-item class="endereco" lines="none">
+                  <ion-label position="stacked">Endereço</ion-label>
+                  <ion-input readonly="true" [value]="endereco || 'Desconhecido'"></ion-input>
                 </ion-item>
               </ion-col>
             </ion-row>
           </ion-grid>
           <ion-item>
             <ion-label position="floating">Título</ion-label>
-            <ion-input
-              formControlName="titulo"
-              maxlength="20"></ion-input>
-            <ion-note
-              slot="end"
-              color="danger"
-              *ngIf="titulo.dirty && titulo.hasError('required')">
+            <ion-input formControlName="titulo" maxlength="20"></ion-input>
+            <ion-note slot="end" color="danger" *ngIf="titulo.dirty && titulo.hasError('required')">
               Campo obrigatório
             </ion-note>
             <ion-note
               slot="end"
               color="danger"
-              *ngIf="titulo.dirty && titulo.hasError('minlength')">
+              *ngIf="titulo.dirty && titulo.hasError('minlength')"
+            >
               Mínimo 6 caracteres
             </ion-note>
           </ion-item>
@@ -114,25 +72,26 @@
               formControlName="descricao"
               required="true"
               maxlength="200"
-              placeholder="Informe alguma descrição..."></ion-textarea>
+              placeholder="Informe alguma descrição..."
+            ></ion-textarea>
             <ion-note
               slot="end"
               color="danger"
-              *ngIf="descricao.dirty && descricao.hasError('required')">
+              *ngIf="descricao.dirty && descricao.hasError('required')"
+            >
               Campo obrigatório
             </ion-note>
             <ion-note
               slot="end"
               color="danger"
-              *ngIf="descricao.dirty && descricao.hasError('minlength')">
+              *ngIf="descricao.dirty && descricao.hasError('minlength')"
+            >
               Mínimo 10 caracteres
             </ion-note>
           </ion-item>
           <ion-item>
             <ion-label>Tipo</ion-label>
-            <ion-select
-              placeholder="Selecione"
-              formControlName="tipo">
+            <ion-select placeholder="Selecione" formControlName="tipo">
               <ion-select-option>Documentos Pessoais</ion-select-option>
               <ion-select-option>Animais (Cães e Gatos, Etc)</ion-select-option>
               <ion-select-option>Celulares / Smartphones / Etc</ion-select-option>
@@ -157,34 +116,26 @@
               </ion-list-header>
               <ion-item>
                 <ion-label>Perdido</ion-label>
-                <ion-radio
-                  slot="start"
-                  value="Perdido"></ion-radio>
+                <ion-radio slot="start" value="Perdido"></ion-radio>
               </ion-item>
               <ion-item>
                 <ion-label>Achado</ion-label>
-                <ion-radio
-                  slot="start"
-                  value="Achado"
-                  checked></ion-radio>
+                <ion-radio slot="start" value="Achado" checked></ion-radio>
               </ion-item>
             </ion-radio-group>
           </ion-list>
-          <ion-item
-            style="display: none"
-            readonly="true">
+          <ion-item style="display: none" readonly="true">
             <ion-input formControlName="latLng"></ion-input>
           </ion-item>
-          <ion-item
-            style="display: none"
-            readonly="true">
+          <ion-item style="display: none" readonly="true">
             <ion-input formControlName="data"></ion-input>
           </ion-item>
           <ion-button
             expand="block"
             type="submit"
             [disabled]="cadastroForm.invalid"
-            style="color: #fff">
+            style="color: #fff"
+          >
             Salvar
           </ion-button>
         </form>

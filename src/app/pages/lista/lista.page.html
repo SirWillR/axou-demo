@@ -1,32 +1,37 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-toggle>
-        <ion-button>
-          <ion-icon
-            slot="icon-only"
-            name="menu"></ion-icon>
-        </ion-button>
-      </ion-menu-toggle>
+      <ion-menu-button color="secondary"></ion-menu-button>
     </ion-buttons>
-    <ion-title>Lista</ion-title>
+    <ion-title>
+      <ion-text color="light">
+        <ion-text color="light" class="fw700">
+          Lista
+        </ion-text>
+      </ion-text>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button size="small" shape="round" color="medium">
+        <ion-icon name="notifications" color="light"></ion-icon>
+        <ion-badge color="dark" slot="end">
+          2
+        </ion-badge>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-item *ngFor="let item of locations">
     <ion-thumbnail slot="start">
-      <img src="../../../assets/item.jpg">
+      <img src="../../../assets/item.jpg" />
     </ion-thumbnail>
     <ion-label>
       <h2>{{item.title}}</h2>
       <p>{{item.descricao}}</p>
     </ion-label>
-    <ion-button
-      fill="outline"
-      slot="end"
-      (click)="goToMap(item.latlng)">
-      Ver
+    <ion-button fill="outline" slot="end" (click)="goToMap(item.latlng)">
+      <ion-icon slot="icon-only" name="locate"></ion-icon>
     </ion-button>
   </ion-item>
 </ion-content>

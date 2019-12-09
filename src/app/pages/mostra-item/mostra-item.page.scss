@@ -1,3 +1,10 @@
 ion-item {
-   --padding-top: 0px
+  --padding-top: 0px;
+}
+
+.img-item {
+  position: relative;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, 0%);
 }

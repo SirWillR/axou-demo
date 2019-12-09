@@ -5,8 +5,11 @@ import * as moment from 'moment';
 import { ItensService } from 'src/app/services/itens.service';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import { ItemClass } from 'src/app/shared/item.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { OverlayService } from 'src/app/services/overlay.service';
+import { MostraItemPage } from '../mostra-item/mostra-item.page';
 
 @Component({
   selector: 'app-cadastra-item',
@@ -26,12 +29,17 @@ export class CadastraItemPage implements OnInit {
     private fb: FormBuilder,
     private mapaService: MapaService,
     private itensService: ItensService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private authService: AuthService,
+    private overlayService: OverlayService,
+    private modalCtrl: ModalController
   ) {}
 
-  ngOnInit() {
-    this.loadMap();
+  async ngOnInit() {
     this.createForm();
+    const loading = await this.overlayService.loading();
+    await this.loadMap();
+    loading.dismiss();
   }
 
   private createForm(): void {
@@ -84,6 +92,10 @@ export class CadastraItemPage implements OnInit {
     return this.cadastroForm.get('data') as FormControl;
   }
 
+  get endereco(): string {
+    return this.cidade.value + ' / ' + this.uf.value + ' / ' + this.pais.value;
+  }
+
   async loadMap() {
     await this.mapaService.loadMap(this.mapElement).then(mapa => (this.map = mapa));
     this.mapaService.addSearchBox(this.map, this.pacInputElement);
@@ -96,13 +108,30 @@ export class CadastraItemPage implements OnInit {
     this.mapaService.markerClick(this.map, this.cidade, this.uf, this.pais, this.latLng);
   }
 
-  onSubmit() {
+  async onSubmit() {
+    const loading = await this.overlayService.loading();
     const data = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
     this.data.setValue(firebase.firestore.Timestamp.fromDate(data));
     this.latLng.setValue(JSON.parse(this.latLng.value));
-    this.itensService.create(this.cadastroForm.value).then(item => {
-      const id = item.id;
-      return this.navCtrl.navigateForward(['mostra-item', { id }]);
+    this.authService.authState$.subscribe(user => {
+      const obj = this.cadastroForm.value;
+      obj.user = user.displayName;
+      obj.userId = user.uid;
+      this.itensService
+        .create(obj)
+        .then(item => {
+          const id = item.id;
+          this.modalCtrl
+            .create({
+              component: MostraItemPage,
+              componentProps: {
+                id
+              }
+            })
+            .then(modal => modal.present());
+          this.navCtrl.navigateForward('');
+        })
+        .finally(() => loading.dismiss());
     });
   }
 }

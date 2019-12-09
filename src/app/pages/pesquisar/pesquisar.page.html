@@ -1,31 +1,20 @@
 <ion-header>
-  <ion-toolbar class="bg-class">
+  <ion-toolbar color="primary" class="bg-class">
     <ion-buttons slot="start">
-      <ion-back-button
-        color="light"
-        defaultHref="/home/map"></ion-back-button>
+      <ion-back-button color="light" defaultHref="/home/map"></ion-back-button>
     </ion-buttons>
-    <ion-title>Pesquisar</ion-title>
+    <ion-title color="light">Pesquisar</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <ion-grid>
     <ion-row class="ion-justify-content-center">
-      <ion-col
-        size-xm="12"
-        size-sm="12"
-        size-md="12"
-        size-lg="10"
-        size-xl="8">
-        <form
-          [formGroup]="searchForm"
-          (submit)="onSubmit()">
+      <ion-col size-xm="12" size-sm="12" size-md="12" size-lg="10" size-xl="8">
+        <form [formGroup]="searchForm" (submit)="onSubmit()">
           <ion-item>
             <ion-label>Tipo</ion-label>
-            <ion-select
-              placeholder="Selecione"
-              formControlName="tipo">
+            <ion-select placeholder="Selecione" formControlName="tipo">
               <ion-select-option>Documentos Pessoais</ion-select-option>
               <ion-select-option>Animais (Cães e Gatos, Etc)</ion-select-option>
               <ion-select-option>Celulares / Smartphones / Etc</ion-select-option>
@@ -55,7 +44,8 @@
                     [max]="atualDate()"
                     (ionBlur)="data_fim.reset()"
                     cancel-text="Cancelar"
-                    doneText="Confirmar">
+                    doneText="Confirmar"
+                  >
                   </ion-datetime>
                 </ion-item>
               </ion-col>
@@ -68,7 +58,8 @@
                     [min]="minEndDate()"
                     [max]="atualDate()"
                     cancel-text="Cancelar"
-                    doneText="Confirmar">
+                    doneText="Confirmar"
+                  >
                   </ion-datetime>
                 </ion-item>
               </ion-col>
@@ -82,34 +73,20 @@
               </ion-list-header>
               <ion-item>
                 <ion-label>Achado</ion-label>
-                <ion-radio
-                  slot="start"
-                  value="Achado"
-                  checked></ion-radio>
+                <ion-radio slot="start" value="Achado" checked></ion-radio>
               </ion-item>
               <ion-item>
                 <ion-label>Perdido</ion-label>
-                <ion-radio
-                  slot="start"
-                  value="Perdido"></ion-radio>
+                <ion-radio slot="start" value="Perdido"></ion-radio>
               </ion-item>
             </ion-radio-group>
           </ion-list>
-          <ion-button
-            expand="block"
-            type="submit"
-            [disabled]="searchForm.invalid"
-            style="color: #fff">
-            <ion-icon
-              slot="icon-only"
-              name="search"></ion-icon>
-            Pesquisar
+          <ion-button expand="block" type="submit" [disabled]="searchForm.invalid" color="primary">
+            <ion-icon slot="icon-only" name="search" color="light"></ion-icon>
+            <span style="color: #fff">Pesquisar</span>
           </ion-button>
-          <ion-button
-            expand="block"
-            (click)="limpar()"
-            fill="outline">
-            Limpar
+          <ion-button expand="block" (click)="limpar()" fill="outline">
+            Limpar Filtros
           </ion-button>
         </form>
       </ion-col>

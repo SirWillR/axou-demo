@@ -15,16 +15,24 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { LoginPage } from './pages/login/login.page';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MostraItemPage } from './pages/mostra-item/mostra-item.page';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [AppComponent, LoginPage, MostraItemPage],
+  entryComponents: [LoginPage, MostraItemPage],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    ReactiveFormsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFireAuthModule,
+    AngularFirestoreModule.enablePersistence({
+      experimentalTabSynchronization: true
+    })
   ],
   providers: [
     StatusBar,
