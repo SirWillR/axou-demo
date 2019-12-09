@@ -48,6 +48,10 @@ export class AppComponent {
     });
   }
 
+  goToHome() {
+    this.navCtrl.navigateRoot('').then(() => location.reload());
+  }
+
   goToEditPerfil() {
     // this.navCtrl.navigateForward('editar-perfil');
   }

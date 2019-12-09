@@ -26,7 +26,7 @@
           </ion-item>
         </ion-toolbar>
         <ion-toolbar *ngIf="!user">
-          <ion-item lines="none" color="light">
+          <ion-item lines="none" color="light" (click)="goToHome()">
             <img src="assets/logo.png" class="logo" />
           </ion-item>
         </ion-toolbar>

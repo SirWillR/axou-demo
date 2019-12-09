@@ -44,7 +44,11 @@ export class MapaComponent implements OnInit {
           const loading = await this.overlayService.loading();
           this.itensService.setitens(params);
           await this.mapaService
-            .reloadMap(this.mapElement, this.map.getZoom(), this.map.getCenter())
+            .reloadMap(
+              this.mapElement,
+              this.map ? this.map.getZoom() : 5,
+              this.map ? this.map.getCenter() : null
+            )
             .then(mapa => {
               this.map = mapa;
               this.addMapStatus();
@@ -81,6 +85,11 @@ export class MapaComponent implements OnInit {
       .finally(() => {
         loading.dismiss();
       });
+  }
+
+  ionViewWillEnter() {
+    this.ngOnInit();
+    console.log('a');
   }
 
   async addMapStatus() {
